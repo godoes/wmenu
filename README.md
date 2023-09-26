@@ -3,8 +3,8 @@
 Package wmenu creates menus for cli programs. It uses wlog for its interface
 with the command line. It uses os.Stdin, os.Stdout, and os.Stderr with
 concurrency by default. wmenu allows you to change the color of the different
-parts of the menu. This package also creates it's own error structure so you can
-type assert if you need to. wmenu will validate all responses before calling any function. It will also figure out which function should be called so you don't have to.
+parts of the menu. This package also creates its own error structure, so you can
+type assert if you need to. wmenu will validate all responses before calling any function. It will also figure out which function should be called, so you don't have to.
 
 [![Watch example](https://asciinema.org/a/4lv3ash3ubtnsclindvzdf320.png)](https://asciinema.org/a/4lv3ash3ubtnsclindvzdf320)
 
@@ -12,8 +12,8 @@ type assert if you need to. wmenu will validate all responses before calling any
 
 ### Post Go1.11
 
-```go
-import "github.com/dixonwille/wmenu/v5"
+```
+import "github.com/godoes/wmenu/v5"
 ```
 
 ### Pre Go1.11
@@ -21,12 +21,12 @@ import "github.com/dixonwille/wmenu/v5"
 I try and keep up with my tags. To use the version and stable it is recommended to use `govendor` or another vendoring tool that allows you to build your project for specific tags.
 
 ```sh
-govendor fetch github.com/dixonwille/wmenu@v4
+govendor fetch github.com/godoes/wmenu@v4
 ```
 
 The above will grab the latest v4 at that time and mark it. It will then be stable for you to use.
 
-I will try to support as many versions as possable but please be patient.
+I will try to support as many versions as possible but please be patient.
 
 ### V1.0.0 - Major Release [![Go Report Card](https://goreportcard.com/badge/gopkg.in/dixonwille/wmenu.v1)](https://goreportcard.com/report/gopkg.in/dixonwille/wmenu.v1) [![GoDoc](https://godoc.org/https://godoc.org/gopkg.in/dixonwille/wmenu.v1?status.svg)](https://godoc.org/gopkg.in/dixonwille/wmenu.v1)
 
@@ -38,7 +38,7 @@ I will try to support as many versions as possable but please be patient.
 
 ### v5.0.0 - Support Go Mods
 
-https://pkg.go.dev/github.com/dixonwille/wmenu/v5
+https://pkg.go.dev/github.com/godoes/wmenu/v5
 
 ## Features
 
@@ -58,7 +58,7 @@ https://pkg.go.dev/github.com/dixonwille/wmenu/v5
 - Can change max number of times to ask before failing output
 - Change reader and writer
 - Clear the screen whenever the menu is brought up
-- Has its own error structure so you can type assert menu errors
+- Has its own error structure, so you can type assert menu errors
 
 ### V2 - Adds these Features
 
@@ -70,21 +70,21 @@ https://pkg.go.dev/github.com/dixonwille/wmenu/v5
 
 ### V4 - Adds these Features
 
-- Have one function for both single and multiple select. Allowing the user to an easier way of handeling the request.
+- Have one function for both single and multiple select. Allowing the user to an easier way of handling the request.
 
 ### v5 - Support Go Mods
 
 - No other change except you should import with the following now
 
-```go
-import "github.com/dixonwille/wmenu/v5"
+```
+import "github.com/godoes/wmenu/v5"
 ```
 
 ## Usage
 
 This is a simple use of the package. (**NOTE: THIS IS A V4 SAMPLE**)
 
-```go
+```
 menu := wmenu.NewMenu("What is your favorite food?")
 menu.Action(func (opts []wmenu.Opt) error {fmt.Printf(opts[0].Text + " is your favorite food."); return nil})
 menu.Option("Pizza", nil, true, nil)
@@ -112,19 +112,19 @@ If the user just presses `[Enter]` then the option(s) with the `*` will be selec
 
 You can you also use:
 
-```go
+```
 menu.AllowMultiple()
 ```
 
 This will allow the user to select multiple options. The default delimiter is a `[space]`, but can be changed by using:
 
-```go
+```
 menu.SetSeperator("some string")
 ```
 
 Another feature is the ability to ask yes or no questions.
 
-```go
+```
 menu.IsYesNo(0)
 ```
 
@@ -132,11 +132,11 @@ This will remove any options previously added options and hide the ones used for
 
 ## V3+ - Release
 
-Allows the user to pass anything for the value so it can be retrieved later in the function. The following is to show case the power of this.
+Allows the user to pass anything for the value, so it can be retrieved later in the function. The following is to showcase the power of this.
 
 > The following was written in V3 but the concept holds for V4. V4 just changed `actFunc` to be `func([]wmenu.Opt) error` instead.
 
-```go
+```
 type NameEntity struct {
   FirstName string
   LastName  string
@@ -177,16 +177,16 @@ Output:
 Choose an option.
 ```
 
-Now if the user pushes `[ENTER]` the output would be `Options 0 was chosen.`. But now if either option 1 or 2 were chosen it would cast the options value to a NameEntity allowing the function to be able to gather both the first name and last name of the NameEntity. If you want though you can just pass in `nil` as the value or even a string (`"hello"`) since both of these implement the empty interface required by value. Just make sure to cast the values so you can use them appropriately.
+Now if the user pushes `[ENTER]` the output would be `Options 0 was chosen.`. But now if either option 1 or 2 were chosen it would cast the options value to a NameEntity allowing the function to be able to gather both the first name and last name of the NameEntity. If you want though you can just pass in `nil` as the value or even a string (`"hello"`) since both of these implement the empty interface required by value. Just make sure to cast the values, so you can use them appropriately.
 
 ## Further Reading
 
 This whole package has been documented and has a few examples in:
 
-- [godocs V1](https://godoc.org/gopkg.in/dixonwille/wmenu.v1)
-- [godocs V2](https://godoc.org/gopkg.in/dixonwille/wmenu.v2)
-- [godocs V3](https://godoc.org/gopkg.in/dixonwille/wmenu.v3)
-- [godocs V4](https://godoc.org/gopkg.in/dixonwille/wmenu.v4)
-- [pkg.go.dev V5](https://pkg.go.dev/github.com/dixonwille/wmenu/v5)
+- [godoc V1](https://godoc.org/gopkg.in/dixonwille/wmenu.v1)
+- [godoc V2](https://godoc.org/gopkg.in/dixonwille/wmenu.v2)
+- [godoc V3](https://godoc.org/gopkg.in/dixonwille/wmenu.v3)
+- [godoc V4](https://godoc.org/gopkg.in/dixonwille/wmenu.v4)
+- [pkg.go.dev V5](https://pkg.go.dev/github.com/godoes/wmenu/v5)
 
-You should read the docs to find all functions and structures at your finger tips.
+You should read the docs to find all functions and structures at your fingertips.

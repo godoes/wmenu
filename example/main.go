@@ -1,4 +1,4 @@
-//package main is to show how multiple menus can be used with eachother
+// package main is to show how multiple menus can be used with each-other
 package main
 
 import (
@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/dixonwille/wmenu/v5"
+	"github.com/godoes/wmenu/v5"
 )
 
 type menuItem int

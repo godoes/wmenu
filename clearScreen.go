@@ -13,21 +13,21 @@ func init() {
 	clear["linux"] = func() {
 		cmd := exec.Command("clear")
 		cmd.Stdout = os.Stdout
-		cmd.Run()
+		_ = cmd.Run()
 	}
 	clear["darwin"] = func() {
 		cmd := exec.Command("clear")
 		cmd.Stdout = os.Stdout
-		cmd.Run()
+		_ = cmd.Run()
 	}
 	clear["windows"] = func() {
 		cmd := exec.Command("cmd", "/c", "cls")
 		cmd.Stdout = os.Stdout
-		cmd.Run()
+		_ = cmd.Run()
 	}
 }
 
-//Clear simply clears the command line interface (os.Stdout only).
+// Clear simply clears the command line interface (os.Stdout only).
 func Clear() {
 	value, ok := clear[runtime.GOOS]
 	if ok {

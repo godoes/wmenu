@@ -15,7 +15,7 @@ import (
 )
 
 var newMenuCases = []string{"Testing this menu.", "", "!@#$%^&*()"}
-var setSeperatorCases = []string{"", ".", ",", "~"}
+var setSeparatorCases = []string{"", ".", ",", "~"}
 var defaultIconCases = []string{"", ",", "*", "~", "!", "@"}
 var setTriesCases = []int{0, -4, 5}
 var optionCases = []struct {
@@ -54,13 +54,13 @@ var errorCases = []struct {
 	singDef     bool
 	multiDef    bool
 }{
-	{"1\r\n", func(option Opt) error { return errors.New("Oops") }, nil, "Oops", false, false},
-	{"1\r\n", nil, func(opts []Opt) error { return errors.New("Oops") }, "Oops", false, false},
-	{"1 2\r\n", nil, func(opts []Opt) error { return errors.New("Oops") }, "Too many responses", false, false},
-	{"\r\n", func(option Opt) error { return errors.New("Oops") }, nil, "Oops", true, false},
-	{"\r\n", nil, func(opts []Opt) error { return errors.New("Oops") }, "Oops", true, false},
-	{"\r\n", nil, func(opts []Opt) error { return errors.New("Oops") }, "Oops", false, false},
-	{"\r\n", nil, func(opts []Opt) error { return errors.New("Oops") }, "Oops", true, true},
+	{"1\r\n", func(option Opt) error { return errors.New(" Oops") }, nil, "Oops", false, false},
+	{"1\r\n", nil, func(opts []Opt) error { return errors.New(" Oops") }, "Oops", false, false},
+	{"1 2\r\n", nil, func(opts []Opt) error { return errors.New(" Oops") }, "Too many responses", false, false},
+	{"\r\n", func(option Opt) error { return errors.New(" Oops") }, nil, "Oops", true, false},
+	{"\r\n", nil, func(opts []Opt) error { return errors.New(" Oops") }, "Oops", true, false},
+	{"\r\n", nil, func(opts []Opt) error { return errors.New(" Oops") }, "Oops", false, false},
+	{"\r\n", nil, func(opts []Opt) error { return errors.New(" Oops") }, "Oops", true, true},
 }
 var ynCases = []struct {
 	input    string
@@ -155,7 +155,7 @@ func Example_yesNo() {
 func Example_simpleDefault() {
 	reader := strings.NewReader("\r\n") //Simulates the user hitting the [enter] key
 	optFunc := func(option Opt) error {
-		fmt.Fprint(os.Stdout, "Option 1 was chosen.")
+		_, _ = fmt.Fprint(os.Stdout, "Option 1 was chosen.")
 		return nil
 	}
 	menu := NewMenu("Choose an option.")
@@ -264,7 +264,7 @@ func Example_errorNoResponse() {
 	//2) Option 2
 	//3) Option 3
 	//Choose an option.
-	//We caught the err: No response
+	//We caught this err: No response
 }
 
 func Example_errorInvalid() {
@@ -318,7 +318,7 @@ func Example_errorTooMany() {
 	//2) Option 2
 	//3) Option 3
 	//Choose an option.
-	//We caught the err: Too many responses
+	//We caught this err: Too many responses
 }
 
 func Example_errorDuplicate() {
@@ -353,23 +353,23 @@ func Example_errorDuplicate() {
 	//2) Option 2
 	//3) Option 3
 	//Choose an option.
-	//We caught the err: Duplicated response: 2
+	//We caught this err: Duplicated response: 2
 
 }
 
 func TestNewMenu(t *testing.T) {
-	assert := assert.New(t)
+	a := assert.New(t)
 	for _, c := range newMenuCases {
 		menu := NewMenu(c)
-		assert.Equal(c, menu.question)
-		assert.Nil(menu.function)
-		assert.Nil(menu.options)
-		assert.Equal(" ", menu.multiSeparator)
-		assert.False(menu.allowMultiple)
-		assert.False(menu.loopOnInvalid)
-		assert.False(menu.clear)
-		assert.NotNil(menu.ui)
-		assert.Equal(3, menu.tries)
+		a.Equal(c, menu.question)
+		a.Nil(menu.function)
+		a.Nil(menu.options)
+		a.Equal(" ", menu.multiSeparator)
+		a.False(menu.allowMultiple)
+		a.False(menu.loopOnInvalid)
+		a.False(menu.clear)
+		a.NotNil(menu.ui)
+		a.Equal(3, menu.tries)
 	}
 }
 
@@ -379,9 +379,9 @@ func TestClearOnMenuRun(t *testing.T) {
 	assert.True(t, menu.clear)
 }
 
-func TestSetSeperator(t *testing.T) {
+func TestSetSeparator(t *testing.T) {
 	menu := NewMenu("Testing")
-	for _, c := range setSeperatorCases {
+	for _, c := range setSeparatorCases {
 		menu.SetSeparator(c)
 		assert.Equal(t, c, menu.multiSeparator)
 	}
@@ -402,19 +402,19 @@ func TestLoopOnInvalid(t *testing.T) {
 }
 
 func TestOption(t *testing.T) {
-	assert := assert.New(t)
+	a := assert.New(t)
 	menu := NewMenu("Testing")
 	for i, c := range optionCases {
 		menu.Option(c.name, c.value, c.def, c.function)
 		require.Equal(t, i+1, len(menu.options))
-		assert.Equal(i+1, menu.options[i].ID)
-		assert.Equal(c.name, menu.options[i].Text)
-		assert.Equal(c.def, menu.options[i].isDefault)
-		assert.Equal(c.value, menu.options[i].Value)
+		a.Equal(i+1, menu.options[i].ID)
+		a.Equal(c.name, menu.options[i].Text)
+		a.Equal(c.def, menu.options[i].isDefault)
+		a.Equal(c.value, menu.options[i].Value)
 		if c.function != nil {
-			assert.NotNil(menu.options[i].function)
+			a.NotNil(menu.options[i].function)
 		} else {
-			assert.Nil(menu.options[i].function)
+			a.Nil(menu.options[i].function)
 		}
 	}
 }
@@ -687,7 +687,7 @@ func TestIDPadding(t *testing.T) {
 	menu.Option("Grapes", "", false, nil)
 	menu.Option("Honeydew Melon", "", false, nil)
 	menu.Option("Indian Prune", "", false, nil)
-	menu.Option("Jackfruit", "", false, nil)
+	menu.Option("Jack Fruit", "", false, nil)
 	menu.Option("Kiwi", "", false, nil)
 	_ = menu.Run()
 
@@ -709,7 +709,7 @@ func TestTrim(t *testing.T) {
 			for _, opt := range opts {
 				actual = append(actual, opt.Text)
 			}
-			fmt.Fprintf(actOut, "%s\r\n", strings.Join(actual, " "))
+			_, _ = fmt.Fprintf(actOut, "%s\r\n", strings.Join(actual, " "))
 			return nil
 		})
 		menu.AllowMultiple()
